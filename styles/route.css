@@ -1,0 +1,9 @@
+.route-form input {
+	margin: 10px;
+	width: 320px;
+}
+
+.route-info, .clients-info{
+	display: flex;
+	flex-flow: row wrap;
+}

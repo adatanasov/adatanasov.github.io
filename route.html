@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Route</title>
+	<link rel="stylesheet" type="text/css" href="styles/kendo.common.min.css">
+	<link rel="stylesheet" type="text/css" href="styles/kendo.metro.min.css">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="styles/route.css">
+</head>
+<body>
+	<div class="container-fluid">	
+		<form class="route-form">
+			<div class="route-info">
+				<div>
+					<label>Start: </label>
+					<input id="start" placeholder="Enter a city" type="text" /><br/>
+					<label>Start Time: </label>
+					<input id="start-time" class="datetime-picker" placeholder="Enter Start Time" /><br/>
+				</div>
+				<div>
+					<label>Stop: </label>
+					<input id="stop" placeholder="Enter a city" type="text" /><br/>
+					<label>Stop Time: </label>
+					<input id="stop-time" class="datetime-picker" placeholder="Enter Stop Time" />	
+				</div>
+				<div>
+					<label>End: </label>
+					<input id="end" placeholder="Enter a city" type="text" /><br/>
+					<label>End Time: </label>
+					<input id="end-time" class="datetime-picker" placeholder="Enter End Time" />	
+				</div>
+			</div>
+			<div class="clients-info">
+				<div>
+					<label>Client: </label><br/>
+					<input id="client-company" type="text" placeholder="Company" /><br/>
+					<input id="client-contact" type="text" placeholder="Contact" /><br/>
+					<input id="client-phone" type="text" placeholder="Phone" /><br/>
+					<input id="client-email" type="email" placeholder="Email" /><br/>
+				</div>
+				<div>
+					<label>Transporter: </label><br/>
+					<input id="transporter-company" type="text" placeholder="Company" /><br/>
+					<input id="transporter-contact" type="text" placeholder="Contact" /><br/>
+					<input id="transporter-phone" type="text" placeholder="Phone" /><br/>
+					<input id="transporter-email" type="email" placeholder="Email" />
+				</div>
+				<div>
+					<label>Driver: </label><br/>
+					<input id="driver-name" type="text" placeholder="Name" /><br/>
+					<input id="driver-phone" type="text" placeholder="Phone" /><br/>
+					<input id="driver-truck" type="text" placeholder="Truck" /><br/>
+				</div>
+			</div>
+			<button class="save-route btn btn-default" type="button" >Save</button>
+			<a class="btn btn-default" href="main.html" >Close</a>
+		</form>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="scripts/model.js"></script>
+	<script type="text/javascript" src="scripts/route.js"></script>
+	<script type="text/javascript" src="scripts/kendo.custom.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyClYOUT5K3jl-ykqnj3lK4tiyIEzsO_RCY&signed_in=true&callback=addAutocomplete&libraries=places" async defer></script>
+</body>
+</html>

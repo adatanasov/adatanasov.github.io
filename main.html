@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>My Speditor</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="styles/style.css">
+</head>
+<body>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+	<div class="container-fluid" ng-app="Routes" ng-controller="RoutesController" >		
+		<a class="upper-plus" href="route.html" title="Create New Route">
+			<div class="upper-left">
+				<i class="icon-plus"></i>
+			</div>
+		</a>
+		<div class="upper-right">Hi, Naso</div>
+		
+		<div class="route-container" ng-repeat="route in routes">
+		
+			<a class="edit-route" href="route.html?routeId={{ route.Id }}" title="Edit Route">
+				<i class="fa fa-pencil-square-o fa-2x"></i>
+			</a>
+			
+			<div class="route" id="{{ route.Id }}">
+				<div class="route-info">
+					<div class="basic-info">
+						<div class="basic-info-container">
+							<div class="title">Start</div>
+							<div class="basic-info-city">{{ route.Start }}</div>	
+							<div class="basic-info-date small-text">{{ route.StartDate | date:'MMM d, y h:mm a' }}</div>	
+						</div>
+						<div class="basic-info-container">
+							<div class="title">Stop</div>	
+							<div class="basic-info-city">Sofia (BG)</div>	
+							<div class="basic-info-date small-text">21-Sep-2015</div>
+						</div>
+						<div class="basic-info-container">
+							<div class="title">End</div>	
+							<div class="basic-info-city">{{ route.End }}</div>	
+							<div class="basic-info-date small-text">{{ route.EndDate | date:'MMM d, y h:mm a' }}</div>
+						</div>
+						<div class="basic-info-container">
+							<div class="title">View map</div>	
+							<a href="map.html?routeId={{ route.Id }}" class="view-map-wrapper" title="View Map">
+								<img class="view-map" src="images/map-icon.png" alt="View map"/>	
+							</a>
+						</div>
+					</div>
+					<div class="info-container">
+						<div class="client-info">
+							<div class="title">Client</div>							
+							<div class="client-info-container">
+								<span class="small-text">Company: </span>Lidl Greece
+							</div>
+							<div class="client-info-container">
+								<span class="small-text">Contact: </span>Georgios Mazonakis
+							</div>
+							<div class="client-info-container">
+								<span class="small-text">Tel: </span>+369 878 963852
+							</div>
+							<div class="client-info-container">
+								<span class="small-text">Email: </span><a href="mailto:g.mazonakis@lidl.gr">g.mazonakis@lidl.gr</a>
+							</div>
+						</div>
+						<div class="transport-info">
+							<div class="title">Transporter</div>						
+							<div class="transport-info-container">
+								<span class="small-text">Company: </span>Naso Trans
+							</div>
+							<div class="transport-info-container">
+								<span class="small-text">Contact: </span>Atanas Atanasov
+							</div>
+							<div class="transport-info-container">
+								<span class="small-text">Tel: </span>+359 878 963852
+							</div>
+							<div class="transport-info-container">
+								<span class="small-text">Email: </span><a href="mailto:a.atanasov@nasotrans.com">a.atanasov@nasotrans.com</a>
+							</div>
+						</div>
+						<div class="transport-info">
+							<div class="title">Driver</div>						
+							<div class="transport-info-container">
+								<span class="small-text">Name: </span>Max Pain
+							</div>
+							<div class="transport-info-container">
+								<span class="small-text">Tel: </span>+359 878 963852
+							</div>
+							<div class="transport-info-container">
+								<span class="small-text">Truck: </span>PK 1234 TB
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="notes">
+				<div class="title">Notes</div>
+				<div class="single-note">
+					<img class="note-icon" src="images/incoming-call-icon.png" alt="Incoming call"></img>
+					<span class="note-date small-text">22-Sep-2015 17:07</span>
+					<span class="note-text">Driver is loading tommorow in Athens.<br/>ksdjlajdlajd sd shdf jhsdfkkjjhskkdjf kkjshdfhsddfh sjdf.</span>
+				</div>
+				<div class="single-note">
+					<img class="note-icon" src="images/outcoming-call-icon.png" alt="Outcoming call"></img>
+					<span class="note-date small-text">22-Sep-2015 17:30</span>
+					<span class="note-text">Asked for invoice. Asked for invoice. Asked for invoice. Asked for invoice. Asked for invoice. Asked for invoice. Asked for invoice. </span>
+				</div>
+				<div class="single-note">
+					<img class="note-icon" src="images/note-icon.png" alt="Note"></img>
+					<span class="note-date small-text">22-Sep-2015 18:30</span>
+					<span class="note-text">Should ask for more money.</span>
+				</div>
+				<div class="single-note">
+					<img class="note-icon" src="images/email-icon.png" alt="Email"></img>
+					<span class="note-date small-text">23-Sep-2015 10:30</span>
+					<span class="note-text">Received the invoice.</span>
+				</div>
+				<div class="single-note">
+					<img class="note-icon" src="images/reminder-icon.png" alt="Reminder"></img>
+					<span class="note-date small-text">23-Sep-2015 11:30</span>
+					<span class="note-text">Call the driver after lunch!</span>
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="scripts/main-script.js"></script>
+	<script type="text/javascript" src="scripts/RoutesController.js"></script>
+</body>
+</html>
