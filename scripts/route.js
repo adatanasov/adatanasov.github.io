@@ -66,23 +66,6 @@ $('.save-route').on('click', function () {
 			} 
 		});
 	} else {
-		// create the route 
-/* 		$.ajax({
-			type: "POST",
-			url: 'http://api.everlive.com/v1/NZCsBulPD19OCNSf/Route',
-			headers: { "Authorization" : "Bearer " + getCookie('MYSPEDITOR_AUTH') },
-			contentType: "application/json",
-			data: JSON.stringify(routeInfo),
-			success: function (data) {
-				alert('Route successfully created!');
-				alert(JSON.stringify(data));
-				ROUTE_ID = data.Result.Id;
-			},
-			error: function (error) {
-				alert(error.responseJSON.message);
-				alert(JSON.stringify(error));
-			} 
-		}); */
 		var clientId, transporterId, driverId
 		MODEL.Create('Client', routeInfo.Client, function(result){
 			clientId = result.Id;
@@ -95,6 +78,7 @@ $('.save-route').on('click', function () {
 					routeInfo.Driver = driverId;
 					MODEL.Create('Route', routeInfo, function(result){
 						ROUTE_ID = result.Id;
+                        window.location.href = 'main.html';
 					});
 				});
 			});
