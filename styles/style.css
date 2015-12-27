@@ -47,14 +47,6 @@ html, body {
 	/* transform: translateY(-50%); */
 }
 
-.edit-route {
-	color: #000;
-	font-family: FontAwesome;
-    font-style: normal;
-    font-weight: normal;
-	margin-left: 10px;
-}
-
 .upper-right {
     margin: 20px;
     padding: 10px;
@@ -65,16 +57,6 @@ html, body {
 	display: inline;
 	position: absolute;
 	right: 20px;
-}
-
-.route {
-	border:3px solid #8AC007;
-	/* height: 220px; */
-    margin: -4px 10px 10px;
-	padding: 5px;
-	font-family: "Segoe UI";
-	display: flex;
-	flex-flow: row wrap;
 }
 
 .title {

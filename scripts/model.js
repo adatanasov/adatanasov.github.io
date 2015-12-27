@@ -35,6 +35,24 @@ var MODEL = (function () {
 			} 
 		});
 	};
+    
+    model.Delete = function(entity, id, callback) {
+		$.ajax({
+			type: "DELETE",
+			url: 'http://api.everlive.com/v1/'+ API_KEY + '/' + entity + '/' + id,
+			headers: { "Authorization" : "Bearer " + getCookie('MYSPEDITOR_AUTH') },
+			contentType: "application/json",
+			success: function (data) {
+				alert(entity + ' with id ' + id + ' successfully deleted!');
+				alert(JSON.stringify(data));
+				callback(data.Result);
+			},
+			error: function (error) {
+				alert(error.responseJSON.message);
+				alert(JSON.stringify(error));
+			} 
+		});
+	};
 
 	return model;
 }());

@@ -4,9 +4,10 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>My Speditor</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="styles/style.css">
+	<link rel="stylesheet" type="text/css" href="styles/main.css">
 </head>
 <body>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
@@ -19,10 +20,15 @@
 		<div class="upper-right">Hi, Naso</div>
 		
 		<div class="route-container" ng-repeat="route in routes">
-		
-			<a class="edit-route" href="route.html?routeId={{ route.Id }}" title="Edit Route">
-				<i class="fa fa-pencil-square-o fa-2x"></i>
-			</a>
+            
+            <div class="route-buttons-container">
+                <a class="btn btn-default edit-route" href="route.html?routeId={{ route.Id }}" title="Edit Route">
+                    <i class="fa fa-pencil-square-o fa-lg"></i> Edit
+                </a>            
+                <a class="btn btn-danger delete-route" href="#" title="Delete Route">
+                    <i class="fa fa-trash-o fa-lg"></i> Delete
+                </a>
+            </div>
 			
 			<div class="route" id="{{ route.Id }}">
 				<div class="route-info">
@@ -127,6 +133,7 @@
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="scripts/model.js"></script>
 	<script type="text/javascript" src="scripts/main.js"></script>
 	<script type="text/javascript" src="scripts/RoutesController.js"></script>
 </body>

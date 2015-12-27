@@ -1,0 +1,16 @@
+.route-buttons-container {
+    margin: 0px 10px;
+}
+
+.delete-route {
+    float: right;
+}
+
+.route {
+	border:3px solid #8AC007;
+    margin: 0px 10px 10px;
+	padding: 5px;
+	font-family: "Segoe UI";
+	display: flex;
+	flex-flow: row wrap;
+}

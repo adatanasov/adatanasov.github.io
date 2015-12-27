@@ -1,4 +1,6 @@
-angular.module('Routes', []).controller('RoutesController', function($scope, $q) {
+var app = angular.module('Routes', []);
+
+angular.module('Routes', []).controller('RoutesController', function($scope, $q, $timeout) {
     getRoutesForUser($q).then(function(data){
 		$scope.routes = data;
 		
@@ -6,6 +8,8 @@ angular.module('Routes', []).controller('RoutesController', function($scope, $q)
 			$scope.routes[i].StartDate = Date.parse($scope.routes[i].StartDate);
 			$scope.routes[i].EndDate = Date.parse($scope.routes[i].EndDate);
 		}
+        
+        $timeout(loadRouteButtons, 300);
 	});
 });
 
