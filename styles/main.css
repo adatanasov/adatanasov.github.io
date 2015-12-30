@@ -1,3 +1,61 @@
+
+.upper-left {
+    margin: 10px;
+    /* padding: 10px; */
+	background-color: #8AC007;
+	width: 40px;
+	height: 40px;
+	display: inline-block;
+	cursor:pointer;	
+	text-align: center;
+	vertical-align: middle;
+}
+
+.upper-plus {
+	text-decoration: none;
+	width: 100%;
+	height: 100%;  
+	line-height:3em;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.icon-plus:before {
+	content: "\f067";
+	color: #000;
+	font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+	font-size: 1.7em;
+	position: relative;
+	top: -5%;
+	/* transform: translateY(-50%); */
+}
+
+.upper-right {
+    margin: 20px;
+    padding: 10px;
+	color: #000;
+	text-align: center;
+	display: inline;
+	position: absolute;
+	right: 20px;
+}
+
+.title {
+	text-align: center;
+	font-weight: bold;
+}
+
+.all-routes {
+    display: flex;
+	flex-flow: row wrap;
+}
+
+.route-container {    
+    width: 650px;
+}
+
 .route-buttons-container {
     margin: 0px 10px;
 }
@@ -13,4 +71,48 @@
 	font-family: "Segoe UI";
 	display: flex;
 	flex-flow: row wrap;
+}
+
+.client-info{	
+	/* border:3px solid #6932FF; */
+	height: 33%;
+    margin: 5px;
+	display: flex;
+	flex-flow: column wrap;
+	justify-content: space-between;
+}
+
+.basic-info-container {
+    margin: 5px;
+	/*display: inline;	*/
+	/* border:3px solid #38FFF1; */
+}
+
+.client-info, .transport-info {
+	/* border:3px solid #FF196D; */
+	float:left;	
+    margin: 5px;
+}
+
+.small-text {
+	font-size: 0.70em;
+}
+
+.view-map-wrapper {
+	padding: 0px;
+	cursor:default;	
+}
+
+.view-map {	
+	cursor:pointer;	
+	padding: 0px;
+	width: 40px;
+	height: 40px;
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+ }
+ 
+#map {
+	height: 100%;
 }

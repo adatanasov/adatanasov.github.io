@@ -12,46 +12,47 @@
 <body>
 	<div class="container-fluid">	
 		<form class="route-form">
-			<div class="route-info">
-				<div>
-					<label>Start: </label>
-					<input id="start" placeholder="Enter a city" type="text" /><br/>
-					<label>Start Time: </label>
-					<input id="start-time" class="datetime-picker" placeholder="Enter Start Time" /><br/>
-				</div>
-				<div>
-					<label>Stop: </label>
-					<input id="stop" placeholder="Enter a city" type="text" /><br/>
-					<label>Stop Time: </label>
-					<input id="stop-time" class="datetime-picker" placeholder="Enter Stop Time" />	
-				</div>
-				<div>
-					<label>End: </label>
-					<input id="end" placeholder="Enter a city" type="text" /><br/>
-					<label>End Time: </label>
-					<input id="end-time" class="datetime-picker" placeholder="Enter End Time" />	
-				</div>
-			</div>
-			<div class="clients-info">
-				<div>
-					<label>Client: </label><br/>
-					<input id="client-order" type="text" placeholder="Order" /><br/>
-					<input id="client-company" type="text" placeholder="Company" /><br/>
-					<input id="client-contact" type="text" placeholder="Contact" /><br/>
-					<input id="client-phone" type="text" placeholder="Phone" /><br/>
-					<input id="client-email" type="email" placeholder="Email" /><br/>
-				</div>
-				<div>
-					<label>Transporter: </label><br/>
-					<input id="transporter-company" type="text" placeholder="Company" /><br/>
-					<input id="transporter-contact" type="text" placeholder="Contact" /><br/>
-					<input id="transporter-phone" type="text" placeholder="Phone" /><br/>
-					<input id="transporter-truck-type" type="text" placeholder="Truck Type" /><br/>
-					<input id="transporter-truck-plates" type="text" placeholder="Truck Plates" /><br/>
-					<input id="transporter-driver-name" type="text" placeholder="Driver Name" /><br/>
-					<input id="transporter-driver-phone" type="text" placeholder="Driver Phone" /><br/>
-				</div>
-			</div>
+            <div class="input-fields">
+                <div class="client-info">
+                    <label>Client: </label><br/>
+                    <input id="client-order" type="text" placeholder="Order" /><br/>
+                    <input id="client-company" type="text" placeholder="Company" /><br/>
+                    <input id="client-contact" type="text" placeholder="Contact" /><br/>
+                    <input id="client-phone" type="text" placeholder="Phone" /><br/>
+                    <input id="client-email" type="email" placeholder="Email" /><br/>
+                </div>
+                <div class="route-info">
+                    <label>Start, Stops and End: </label><br/>
+                    <div>
+                        <label>Start: </label>
+                        <input id="start" placeholder="Enter a city" type="text" /><br/>
+                        <label>Start Time: </label>
+                        <input id="start-time" class="datetime-picker" placeholder="Enter Start Time" /><br/>
+                    </div>
+                    <div>
+                        <label>Stop: </label>
+                        <input id="stop" placeholder="Enter a city" type="text" /><br/>
+                        <label>Stop Time: </label>
+                        <input id="stop-time" class="datetime-picker" placeholder="Enter Stop Time" />	
+                    </div>
+                    <div>
+                        <label>End: </label>
+                        <input id="end" placeholder="Enter a city" type="text" /><br/>
+                        <label>End Time: </label>
+                        <input id="end-time" class="datetime-picker" placeholder="Enter End Time" />	
+                    </div>
+                </div>
+                <div class="transporter-info">
+                    <label>Transporter: </label><br/>
+                    <input id="transporter-company" type="text" placeholder="Company" /><br/>
+                    <input id="transporter-contact" type="text" placeholder="Contact" /><br/>
+                    <input id="transporter-phone" type="text" placeholder="Phone" /><br/>
+                    <input id="transporter-truck-type" type="text" placeholder="Truck Type" /><br/>
+                    <input id="transporter-truck-plates" type="text" placeholder="Truck Plates" /><br/>
+                    <input id="transporter-driver-name" type="text" placeholder="Driver Name" /><br/>
+                    <input id="transporter-driver-phone" type="text" placeholder="Driver Phone" /><br/>
+                </div>
+            </div>
 			<button class="save-route btn btn-default" type="button" >Save</button>
 			<a class="btn btn-default" href="main.html" >Close</a>
 		</form>

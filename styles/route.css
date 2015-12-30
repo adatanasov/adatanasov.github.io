@@ -1,9 +1,14 @@
+.input-fields {
+    display: flex;
+	flex-flow: row wrap;
+}
+
 .route-form input {
-	margin: 10px;
+	margin: 5px;
 	width: 320px;
 }
 
-.route-info, .clients-info{
+.route-info, .client-info, .transporter-info{
 	display: flex;
-	/*flex-flow: row wrap;*/
+	flex-flow: column wrap;
 }

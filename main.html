@@ -1,116 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>My Speditor</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="styles/style.css">
-	<link rel="stylesheet" type="text/css" href="styles/main.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Speditor</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="styles/common.css">
+    <link rel="stylesheet" type="text/css" href="styles/main.css">
 </head>
+
 <body>
-	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
-	<div class="container-fluid" ng-app="Routes" ng-controller="RoutesController" >		
-		<a class="upper-plus" href="route.html" title="Add New Route">
-			<div class="upper-left">
-				<i class="icon-plus"></i>
-			</div>
-		</a>
-		<div class="upper-right">Hi, Naso</div>
-		
-        <div class="" ng-show="routes.length == 0">You've got no routes yet. Try 
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+    <div class="container-fluid" ng-app="Routes" ng-controller="RoutesController">
+        <a class="upper-plus" href="route.html" title="Add New Route">
+            <div class="upper-left">
+                <i class="icon-plus"></i>
+            </div>
+        </a>
+        <div class="upper-right">Hi, Naso</div>
+
+        <div class="" ng-show="routes.length == 0">You've got no routes yet. Try
             <a href="route.html" title="Create New Route">creating a new one</a>!
         </div>
-        
-		<div class="route-container" ng-repeat="route in routes">
-            
-            <div class="route-buttons-container">
-                <a class="btn btn-default edit-route" href="route.html?routeId={{ route.Id }}" title="Edit Route">
-                    <i class="fa fa-pencil-square-o fa-lg"></i> Edit
-                </a>            
-                <a class="btn btn-danger delete-route" href="#" title="Delete Route">
-                    <i class="fa fa-trash-o fa-lg"></i> Delete
-                </a>
+
+        <div class="all-routes">
+            <div class="route-container" ng-repeat="route in routes">
+
+                <div class="route-buttons-container">
+                    <a class="btn btn-default edit-route" href="route.html?routeId={{ route.Id }}" title="Edit Route">
+                        <i class="fa fa-pencil-square-o fa-lg"></i> Edit
+                    </a>
+                    <a class="btn btn-danger delete-route" href="#" title="Delete Route">
+                        <i class="fa fa-trash-o fa-lg"></i> Delete
+                    </a>
+                </div>
+
+                <div class="route" id="{{ route.Id }}">
+                    <div class="client-info">
+                        <div class="client-info" id="{{ route.ClientId }}">
+                            <div class="title">Client</div>
+                            <div class="client-info-container">
+                                <span class="small-text">Order: </span>{{ route.Client.Order }}
+                            </div>
+                            <div class="client-info-container">
+                                <span class="small-text">Company: </span>{{ route.Client.Company }}
+                            </div>
+                            <div class="client-info-container">
+                                <span class="small-text">Contact: </span>{{ route.Client.Contact }}
+                            </div>
+                            <div class="client-info-container">
+                                <span class="small-text">Tel: </span>{{ route.Client.Phone }}
+                            </div>
+                            <div class="client-info-container">
+                                <span class="small-text">Email: </span><a href="mailto:{{ route.Client.Email }}">{{ route.Client.Email }}</a>
+                            </div>
+                        </div>
+                        <div class="basic-info-container">
+                            <div class="title">View map</div>
+                            <a href="map.html?routeId={{ route.Id }}" class="view-map-wrapper" title="View Map">
+                                <img class="view-map" src="images/map-icon.png" alt="View map" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="basic-route-info">
+                        <div class="basic-info-container">
+                            <div class="title">Start</div>
+                            <div class="basic-info-city">{{ route.Start }}</div>
+                            <div class="basic-info-date small-text">{{ route.StartDate || 'Date not set' | date:'MMM d, y h:mm a' }}</div>
+                        </div>
+                        <div class="basic-info-container" ng-show="route.Stop">
+                            <div class="title">Stop</div>
+                            <div class="basic-info-city">{{ route.Stop }}</div>
+                            <div class="basic-info-date small-text">{{ route.StopDate || 'Date not set' | date:'MMM d, y h:mm a' }}</div>
+                        </div>
+                        <div class="basic-info-container">
+                            <div class="title">End</div>
+                            <div class="basic-info-city">{{ route.End }}</div>
+                            <div class="basic-info-date small-text">{{ route.EndDate || 'Date not set' | date:'MMM d, y h:mm a' }}</div>
+                        </div>
+                    </div>
+                    <div class="transport-info" id="{{ route.TransporterId }}">
+                        <div class="title">Transporter</div>
+                        <div class="transport-info-container">
+                            <span class="small-text">Company: </span>{{ route.Transporter.Company }}
+                        </div>
+                        <div class="transport-info-container">
+                            <span class="small-text">Contact: </span>{{ route.Transporter.Contact }}
+                        </div>
+                        <div class="transport-info-container">
+                            <span class="small-text">Tel: </span>{{ route.Transporter.Phone }}
+                        </div>
+                        <div class="transport-info-container">
+                            <span class="small-text">Truck Type: </span>{{ route.Transporter.TruckType }}
+                        </div>
+                        <div class="transport-info-container">
+                            <span class="small-text">Truck Plates: </span>{{ route.Transporter.TruckPlates }}
+                        </div>
+                        <div class="transport-info-container">
+                            <span class="small-text">Driver Name: </span>{{ route.Transporter.DriverName }}
+                        </div>
+                        <div class="transport-info-container">
+                            <span class="small-text">Driver Phone: </span>{{ route.Transporter.DriverPhone }}
+                        </div>
+                    </div>
+                </div>
             </div>
-			
-			<div class="route" id="{{ route.Id }}">
-				<div class="route-info">
-					<div class="basic-info">
-						<div class="basic-info-container">
-							<div class="title">Start</div>
-							<div class="basic-info-city">{{ route.Start }}</div>	
-							<div class="basic-info-date small-text">{{ route.StartDate || 'Date not set' | date:'MMM d, y h:mm a' }}</div>	
-						</div>
-						<div class="basic-info-container" ng-show="route.Stop">
-							<div class="title">Stop</div>	
-							<div class="basic-info-city">{{ route.Stop }}</div>	
-							<div class="basic-info-date small-text">{{ route.StopDate || 'Date not set' | date:'MMM d, y h:mm a' }}</div>
-						</div>
-						<div class="basic-info-container">
-							<div class="title">End</div>	
-							<div class="basic-info-city">{{ route.End }}</div>	
-							<div class="basic-info-date small-text">{{ route.EndDate || 'Date not set' | date:'MMM d, y h:mm a' }}</div>
-						</div>
-						<div class="basic-info-container">
-							<div class="title">View map</div>	
-							<a href="map.html?routeId={{ route.Id }}" class="view-map-wrapper" title="View Map">
-								<img class="view-map" src="images/map-icon.png" alt="View map"/>	
-							</a>
-						</div>
-					</div>
-					<div class="info-container">
-						<div class="client-info" id="{{ route.ClientId }}">
-							<div class="title">Client</div>								
-							<div class="client-info-container">
-								<span class="small-text">Order: </span>{{ route.Client.Order }}
-							</div>					
-							<div class="client-info-container">
-								<span class="small-text">Company: </span>{{ route.Client.Company }}
-							</div>
-							<div class="client-info-container">
-								<span class="small-text">Contact: </span>{{ route.Client.Contact }}
-							</div>
-							<div class="client-info-container">
-								<span class="small-text">Tel: </span>{{ route.Client.Phone }}
-							</div>
-							<div class="client-info-container">
-								<span class="small-text">Email: </span><a href="mailto:{{ route.Client.Email }}">{{ route.Client.Email }}</a>
-							</div>
-						</div>
-						<div class="transport-info" id="{{ route.TransporterId }}">
-							<div class="title">Transporter</div>						
-							<div class="transport-info-container">
-								<span class="small-text">Company: </span>{{ route.Transporter.Company }}
-							</div>
-							<div class="transport-info-container">
-								<span class="small-text">Contact: </span>{{ route.Transporter.Contact }}
-							</div>
-							<div class="transport-info-container">
-								<span class="small-text">Tel: </span>{{ route.Transporter.Phone }}
-							</div>
-							<div class="transport-info-container">
-								<span class="small-text">Truck Type: </span>{{ route.Transporter.TruckType }}
-							</div>
-							<div class="transport-info-container">
-								<span class="small-text">Truck Plates: </span>{{ route.Transporter.TruckPlates }}
-							</div>
-							<div class="transport-info-container">
-								<span class="small-text">Driver Name: </span>{{ route.Transporter.DriverName }}
-							</div>
-							<div class="transport-info-container">
-								<span class="small-text">Driver Phone: </span>{{ route.Transporter.DriverPhone }}
-							</div>
-						</div>
-					</div>
-				</div>
-            </div>
-		</div>
-	</div>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="scripts/model.js"></script>
-	<script type="text/javascript" src="scripts/main.js"></script>
-	<script type="text/javascript" src="scripts/RoutesController.js"></script>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="scripts/model.js"></script>
+    <script type="text/javascript" src="scripts/main.js"></script>
+    <script type="text/javascript" src="scripts/RoutesController.js"></script>
 </body>
+
 </html>
