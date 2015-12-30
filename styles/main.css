@@ -52,10 +52,6 @@
 	flex-flow: row wrap;
 }
 
-.route-container {    
-    width: 650px;
-}
-
 .route-buttons-container {
     margin: 0px 10px;
 }
