@@ -19,6 +19,10 @@
 		</a>
 		<div class="upper-right">Hi, Naso</div>
 		
+        <div class="" ng-show="routes.length == 0">You've got no routes yet. Try 
+            <a href="route.html" title="Create New Route">creating a new one</a>!
+        </div>
+        
 		<div class="route-container" ng-repeat="route in routes">
             
             <div class="route-buttons-container">
@@ -36,17 +40,17 @@
 						<div class="basic-info-container">
 							<div class="title">Start</div>
 							<div class="basic-info-city">{{ route.Start }}</div>	
-							<div class="basic-info-date small-text">{{ route.StartDate | date:'MMM d, y h:mm a' }}</div>	
+							<div class="basic-info-date small-text">{{ route.StartDate || 'Date not set' | date:'MMM d, y h:mm a' }}</div>	
 						</div>
-						<div class="basic-info-container">
+						<div class="basic-info-container" ng-show="route.Stop">
 							<div class="title">Stop</div>	
-							<div class="basic-info-city">Sofia (BG)</div>	
-							<div class="basic-info-date small-text">21-Sep-2015</div>
+							<div class="basic-info-city">{{ route.Stop }}</div>	
+							<div class="basic-info-date small-text">{{ route.StopDate || 'Date not set' | date:'MMM d, y h:mm a' }}</div>
 						</div>
 						<div class="basic-info-container">
 							<div class="title">End</div>	
 							<div class="basic-info-city">{{ route.End }}</div>	
-							<div class="basic-info-date small-text">{{ route.EndDate | date:'MMM d, y h:mm a' }}</div>
+							<div class="basic-info-date small-text">{{ route.EndDate || 'Date not set' | date:'MMM d, y h:mm a' }}</div>
 						</div>
 						<div class="basic-info-container">
 							<div class="title">View map</div>	
@@ -56,79 +60,51 @@
 						</div>
 					</div>
 					<div class="info-container">
-						<div class="client-info">
-							<div class="title">Client</div>							
+						<div class="client-info" id="{{ route.ClientId }}">
+							<div class="title">Client</div>								
 							<div class="client-info-container">
-								<span class="small-text">Company: </span>Lidl Greece
+								<span class="small-text">Order: </span>{{ route.Client.Order }}
+							</div>					
+							<div class="client-info-container">
+								<span class="small-text">Company: </span>{{ route.Client.Company }}
 							</div>
 							<div class="client-info-container">
-								<span class="small-text">Contact: </span>Georgios Mazonakis
+								<span class="small-text">Contact: </span>{{ route.Client.Contact }}
 							</div>
 							<div class="client-info-container">
-								<span class="small-text">Tel: </span>+369 878 963852
+								<span class="small-text">Tel: </span>{{ route.Client.Phone }}
 							</div>
 							<div class="client-info-container">
-								<span class="small-text">Email: </span><a href="mailto:g.mazonakis@lidl.gr">g.mazonakis@lidl.gr</a>
+								<span class="small-text">Email: </span><a href="mailto:{{ route.Client.Email }}">{{ route.Client.Email }}</a>
 							</div>
 						</div>
-						<div class="transport-info">
+						<div class="transport-info" id="{{ route.TransporterId }}">
 							<div class="title">Transporter</div>						
 							<div class="transport-info-container">
-								<span class="small-text">Company: </span>Naso Trans
+								<span class="small-text">Company: </span>{{ route.Transporter.Company }}
 							</div>
 							<div class="transport-info-container">
-								<span class="small-text">Contact: </span>Atanas Atanasov
+								<span class="small-text">Contact: </span>{{ route.Transporter.Contact }}
 							</div>
 							<div class="transport-info-container">
-								<span class="small-text">Tel: </span>+359 878 963852
+								<span class="small-text">Tel: </span>{{ route.Transporter.Phone }}
 							</div>
 							<div class="transport-info-container">
-								<span class="small-text">Email: </span><a href="mailto:a.atanasov@nasotrans.com">a.atanasov@nasotrans.com</a>
-							</div>
-						</div>
-						<div class="transport-info">
-							<div class="title">Driver</div>						
-							<div class="transport-info-container">
-								<span class="small-text">Name: </span>Max Pain
+								<span class="small-text">Truck Type: </span>{{ route.Transporter.TruckType }}
 							</div>
 							<div class="transport-info-container">
-								<span class="small-text">Tel: </span>+359 878 963852
+								<span class="small-text">Truck Plates: </span>{{ route.Transporter.TruckPlates }}
 							</div>
 							<div class="transport-info-container">
-								<span class="small-text">Truck: </span>PK 1234 TB
+								<span class="small-text">Driver Name: </span>{{ route.Transporter.DriverName }}
+							</div>
+							<div class="transport-info-container">
+								<span class="small-text">Driver Phone: </span>{{ route.Transporter.DriverPhone }}
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="notes">
-				<div class="title">Notes</div>
-				<div class="single-note">
-					<img class="note-icon" src="images/incoming-call-icon.png" alt="Incoming call"></img>
-					<span class="note-date small-text">22-Sep-2015 17:07</span>
-					<span class="note-text">Driver is loading tommorow in Athens.<br/>ksdjlajdlajd sd shdf jhsdfkkjjhskkdjf kkjshdfhsddfh sjdf.</span>
-				</div>
-				<div class="single-note">
-					<img class="note-icon" src="images/outcoming-call-icon.png" alt="Outcoming call"></img>
-					<span class="note-date small-text">22-Sep-2015 17:30</span>
-					<span class="note-text">Asked for invoice. Asked for invoice. Asked for invoice. Asked for invoice. Asked for invoice. Asked for invoice. Asked for invoice. </span>
-				</div>
-				<div class="single-note">
-					<img class="note-icon" src="images/note-icon.png" alt="Note"></img>
-					<span class="note-date small-text">22-Sep-2015 18:30</span>
-					<span class="note-text">Should ask for more money.</span>
-				</div>
-				<div class="single-note">
-					<img class="note-icon" src="images/email-icon.png" alt="Email"></img>
-					<span class="note-date small-text">23-Sep-2015 10:30</span>
-					<span class="note-text">Received the invoice.</span>
-				</div>
-				<div class="single-note">
-					<img class="note-icon" src="images/reminder-icon.png" alt="Reminder"></img>
-					<span class="note-date small-text">23-Sep-2015 11:30</span>
-					<span class="note-text">Call the driver after lunch!</span>
-				</div>
-			</div>
-		</div>
+            </div>
 		</div>
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>

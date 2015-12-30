@@ -5,5 +5,5 @@
 
 .route-info, .clients-info{
 	display: flex;
-	flex-flow: row wrap;
+	/*flex-flow: row wrap;*/
 }

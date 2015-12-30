@@ -1,10 +1,9 @@
-var ROUTE_ID;
+var ROUTE_ID, CLIENT_ID, TRANSPORTER_ID;
 
 $('document').ready(function(){
 	ROUTE_ID = getParameterByName('routeId');
 	$(".datetime-picker").kendoDateTimePicker({
-		theme: "Metro",
-		// value:new Date()
+		theme: "Metro"
     });
 	
 	if (ROUTE_ID) {
@@ -13,19 +12,11 @@ $('document').ready(function(){
 });
 
 function showRouteInfo() {
-	$.ajax({
-		type: "GET",
-		url: 'http://api.everlive.com/v1/NZCsBulPD19OCNSf/Route/' + ROUTE_ID,
-		headers: { "Authorization" : "Bearer " + getCookie('MYSPEDITOR_AUTH')},
-		contentType: "application/json",
-		success: function (data) {
-			setRouteInfo(data.Result);
-		},
-		error: function (error) {
-			alert(error.responseJSON.message);
-			alert(JSON.stringify(error));
-		}
-	});
+    MODEL.GetAllRouteInfoById('Route', ROUTE_ID, function (data) {
+        CLIENT_ID = data.ClientId;
+        TRANSPORTER_ID = data.TransporterId;
+        setRouteInfo(data);
+    });
 };
 
 function addAutocomplete() {
@@ -48,64 +39,56 @@ function addAutocomplete() {
 $('.save-route').on('click', function () {
 	var routeInfo = getRouteInfo();
 	
-	if (ROUTE_ID != '') {
-		// update the route
-		$.ajax({
-			type: "PUT",
-			url: 'http://api.everlive.com/v1/NZCsBulPD19OCNSf/Route/' + ROUTE_ID,
-			headers: { "Authorization" : "Bearer " + getCookie('MYSPEDITOR_AUTH') },
-			contentType: "application/json",
-			data: JSON.stringify(routeInfo),
-			success: function (data) {
-				alert('Route successfully updated!');
-				alert(JSON.stringify(data));
-			},
-			error: function (error) {
-				alert(error.responseJSON.message);
-				alert(JSON.stringify(error));
-			} 
-		});
+	if (ROUTE_ID) {
+        if (CLIENT_ID) {
+            MODEL.Update('Client', CLIENT_ID, routeInfo.Client, function(result){});
+        }        
+        
+        if (TRANSPORTER_ID) {
+            MODEL.Update('Transporter', TRANSPORTER_ID, routeInfo.Transporter, function(result){});
+        }
+                
+        MODEL.Update('Route', ROUTE_ID, routeInfo.Route, function(result){});
 	} else {
-		var clientId, transporterId, driverId
+		var clientId, transporterId;
 		MODEL.Create('Client', routeInfo.Client, function(result){
 			clientId = result.Id;
-			MODEL.Create('Client', routeInfo.Transporter, function(result){
-				transporterId = result.Id;
-				MODEL.Create('Driver', routeInfo.Driver, function(result){
-					driverId = result.Id;
-					routeInfo.Client = clientId;
-					routeInfo.Transporter = transporterId;
-					routeInfo.Driver = driverId;
-					MODEL.Create('Route', routeInfo, function(result){
-						ROUTE_ID = result.Id;
-                        window.location.href = 'main.html';
-					});
-				});
+			MODEL.Create('Transporter', routeInfo.Transporter, function(result){
+				transporterId = result.Id;				
+                routeInfo.Route.ClientId = clientId;
+                routeInfo.Route.TransporterId = transporterId;
+                MODEL.Create('Route', routeInfo.Route, function(result){
+                    ROUTE_ID = result.Id;
+                    window.location.href = 'main.html';
+                });
 			});
 		});
 	}
 });
 
 function getRouteInfo() {
-	var routeInfo = { ClientInfo: {}, TransporterInfo: {}, DriverInfo: {} };
+	var routeInfo = { Route: {}, Client: {}, Transporter: {} };
 	
-	routeInfo.Start = $('#start').val();
-	routeInfo.StartDate = $('#start-time').val();
-	routeInfo.Stop = $('#stop').val();
-	routeInfo.StopDate = $('#stop-time').val();
-	routeInfo.End = $('#end').val();
-	routeInfo.EndDate = $('#end-time').val();	
-	routeInfo.ClientInfo.CompanyName = $('#client-company').val();
-	routeInfo.ClientInfo.ContactName = $('#client-contact').val();
-	routeInfo.ClientInfo.Phone = $('#client-phone').val();
-	routeInfo.ClientInfo.Email = $('#client-email').val();
-	routeInfo.TransporterInfo.CompanyName = $('#transporter-company').val();
-	routeInfo.TransporterInfo.ContactName = $('#transporter-contact').val();
-	routeInfo.TransporterInfo.Phone = $('#transporter-phone').val();
-	routeInfo.TransporterInfo.Email = $('#transporter-email').val();
-	routeInfo.DriverInfo.Name = $('#driver-name').val();
-	routeInfo.DriverInfo.Phone = $('#driver-phone').val();
-	routeInfo.DriverInfo.Truck = $('#driver-truck').val();
+	routeInfo.Route.Start = $('#start').val();
+	routeInfo.Route.StartDate = $('#start-time').val();
+	routeInfo.Route.Stop = $('#stop').val();
+	routeInfo.Route.StopDate = $('#stop-time').val();
+	routeInfo.Route.End = $('#end').val();
+	routeInfo.Route.EndDate = $('#end-time').val();	
+    
+	routeInfo.Client.Order = $('#client-order').val();
+	routeInfo.Client.Company = $('#client-company').val();
+	routeInfo.Client.Contact = $('#client-contact').val();
+	routeInfo.Client.Phone = $('#client-phone').val();
+	routeInfo.Client.Email = $('#client-email').val();
+    
+	routeInfo.Transporter.Company = $('#transporter-company').val();
+	routeInfo.Transporter.Contact = $('#transporter-contact').val();
+	routeInfo.Transporter.Phone = $('#transporter-phone').val();
+	routeInfo.Transporter.TruckType = $('#transporter-truck-type').val();
+	routeInfo.Transporter.TruckPlates = $('#transporter-truck-plates').val();
+	routeInfo.Transporter.DriverName = $('#transporter-driver-name').val();
+	routeInfo.Transporter.DriverPhone = $('#transporter-driver-phone').val();
 	
 	return routeInfo;
 };
@@ -117,32 +100,20 @@ function setRouteInfo(routeInfo) {
 	$('#stop-time').val(routeInfo.StopDate);
 	$('#end').val(routeInfo.End);
 	$('#end-time').val(routeInfo.EndDate);
-	$('#client-company').val(routeInfo.Client.CompanyName);
-	$('#client-contact').val(routeInfo.Client.ContactName);
+    
+	$('#client-order').val(routeInfo.Client.Order);
+	$('#client-company').val(routeInfo.Client.Company);
+	$('#client-contact').val(routeInfo.Client.Contact);
 	$('#client-phone').val(routeInfo.Client.Phone);
 	$('#client-email').val(routeInfo.Client.Email);
-	$('#transporter-company').val(routeInfo.Transporter.CompanyName);
-	$('#transporter-contact').val(routeInfo.Transporter.ContactName);
+    
+	$('#transporter-company').val(routeInfo.Transporter.Company);
+	$('#transporter-contact').val(routeInfo.Transporter.Contact);
 	$('#transporter-phone').val(routeInfo.Transporter.Phone);
-	$('#transporter-email').val(routeInfo.Transporter.Email);
-	$('#driver-name').val(routeInfo.Driver.Name);
-	$('#driver-phone').val(routeInfo.Driver.Phone);
-	$('#driver-truck').val(routeInfo.Driver.Truck);
-}
-
-function getCookie(cname) {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0; i<ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') {
-			c = c.substring(1);
-		}
-        if (c.indexOf(name) == 0) {
-			return c.substring(name.length, c.length);
-		} 
-    }
-    return "";
+	$('#transporter-truck-type').val(routeInfo.Transporter.TruckType);
+	$('#transporter-truck-plates').val(routeInfo.Transporter.TruckPlates);
+	$('#transporter-driver-name').val(routeInfo.Transporter.DriverName);
+	$('#transporter-driver-phone').val(routeInfo.Transporter.DriverPhone);
 };
 
 function getParameterByName(name) {

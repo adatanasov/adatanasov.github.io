@@ -104,31 +104,6 @@ html, body {
     margin: 5px;
 }
 
-.notes {
-	/* border:3px solid #CECCFF; */
-	float: left;
-    margin: 5px;
-    overflow:auto;
-    overflow-x:hidden;
-	/* width: auto; */
-	height: 95%;
-	flex: 1 1 38%;
-	max-height: 200px;
-	/* max-width: 40%; */
-	order: 2;
-}
-
-.single-note {
-	/* border:3px solid #FFCDC9;	 */
-    margin: 5px;
-}
-
-.note-icon {
-	width: 25px;
-	height: 25px;
-	vertical-align: middle;
-}
-
 .small-text {
 	font-size: 0.70em;
 }

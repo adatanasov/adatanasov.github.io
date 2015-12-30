@@ -16,7 +16,6 @@ $('#login-form').on('submit', function () {
 		},
 		error: function (error) {
 			alert(error.responseJSON.message);
-			/* alert(JSON.stringify(error)); */
 		}
 	});
 	
