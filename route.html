@@ -7,52 +7,99 @@
 	<link rel="stylesheet" type="text/css" href="styles/kendo.common.min.css">
 	<link rel="stylesheet" type="text/css" href="styles/kendo.metro.min.css">
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="styles/common.css">
 	<link rel="stylesheet" type="text/css" href="styles/route.css">
 </head>
 <body>
-	<div class="container-fluid">	
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+	<div class="container-fluid" ng-app="NewRoute" ng-controller="NewRouteController">	
 		<form class="route-form">
-            <div class="input-fields">
-                <div class="client-info">
-                    <label>Client: </label><br/>
+            <label class="client-label">Client: </label><br/>
+            <div class="client-info">
+                <div>
+                    <label class="small-text">Order: </label><br/>
                     <input id="client-order" type="text" placeholder="Order" /><br/>
+                </div>
+                <div>
+                    <label class="small-text">Company: </label><br/>
                     <input id="client-company" type="text" placeholder="Company" /><br/>
+                </div>
+                <div>
+                    <label class="small-text">Contact: </label><br/>
                     <input id="client-contact" type="text" placeholder="Contact" /><br/>
+                </div>
+                <div>
+                    <label class="small-text">Phone: </label><br/>
                     <input id="client-phone" type="text" placeholder="Phone" /><br/>
+                </div>
+                <div>
+                    <label class="small-text">Email: </label><br/>
                     <input id="client-email" type="email" placeholder="Email" /><br/>
                 </div>
-                <div class="route-info">
-                    <label>Start, Stops and End: </label><br/>
-                    <div>
-                        <label>Start: </label>
-                        <input id="start" placeholder="Enter a city" type="text" /><br/>
-                        <label>Start Time: </label>
-                        <input id="start-time" class="datetime-picker" placeholder="Enter Start Time" /><br/>
-                    </div>
-                    <div>
-                        <label>Stop: </label>
-                        <input id="stop" placeholder="Enter a city" type="text" /><br/>
-                        <label>Stop Time: </label>
-                        <input id="stop-time" class="datetime-picker" placeholder="Enter Stop Time" />	
-                    </div>
-                    <div>
-                        <label>End: </label>
-                        <input id="end" placeholder="Enter a city" type="text" /><br/>
-                        <label>End Time: </label>
-                        <input id="end-time" class="datetime-picker" placeholder="Enter End Time" />	
-                    </div>
-                </div>
-                <div class="transporter-info">
-                    <label>Transporter: </label><br/>
-                    <input id="transporter-company" type="text" placeholder="Company" /><br/>
-                    <input id="transporter-contact" type="text" placeholder="Contact" /><br/>
-                    <input id="transporter-phone" type="text" placeholder="Phone" /><br/>
-                    <input id="transporter-truck-type" type="text" placeholder="Truck Type" /><br/>
-                    <input id="transporter-truck-plates" type="text" placeholder="Truck Plates" /><br/>
-                    <input id="transporter-driver-name" type="text" placeholder="Driver Name" /><br/>
-                    <input id="transporter-driver-phone" type="text" placeholder="Driver Phone" /><br/>
-                </div>
             </div>
+            <div class="all-courses">
+                <div class="course-fields-wrapper">
+                    <div ng-repeat='course in courses' id='course-{{$index}}' class="course-fields">
+                        <div class="city-dates-wrapper">
+                            <div class="city-dates-info">
+                                <label>Start, Stops and End: </label><br/>
+                                <div>
+                                    <label class="small-text">Start: </label>
+                                    <input class="start autocomplete" placeholder="Select a city" type="text" /><br/>
+                                    <label class="small-text">Start Time: </label>
+                                    <input class="start-time datetime-picker" placeholder="Select Start Time" /><br/>
+                                </div>
+                                <div>
+                                    <label class="small-text">End: </label>
+                                    <input class="end autocomplete" placeholder="Select a city" type="text" /><br/>
+                                    <label class="small-text">End Time: </label>
+                                    <input class="end-time datetime-picker" placeholder="Select End Time" />	
+                                </div>
+                                <div ng-hide='course.stops.length === 0' ng-repeat='stop in course.stops'>
+                                    <label class="small-text">Stop: </label>
+                                    <input class="stop autocomplete" placeholder="Select a city" type="text" /><br/>
+                                    <label class="small-text">Stop Time: </label>
+                                    <input class="stop-time datetime-picker" placeholder="Select Stop Time" />	
+                                </div>
+                            </div>
+                            <button ng-click='addStop($index)' class="add-stop">Add a Stop</button>
+                        </div>
+                        <div class="transporter-info">
+                            <label>Transporter: </label><br/>
+                            <div>
+                                <label class="small-text">Company: </label>
+                                <input class="transporter-company" type="text" placeholder="Company" /><br/>
+                            </div>
+                            <div>
+                                <label class="small-text">Contact: </label>
+                            <input class="transporter-contact" type="text" placeholder="Contact" /><br/>
+                            </div>
+                            <div>
+                                <label class="small-text">Phone: </label>
+                            <input class="transporter-phone" type="text" placeholder="Phone" /><br/>
+                            </div>
+                            <div>
+                                <label class="small-text">Truck Type: </label>
+                            <input class="transporter-truck-type" type="text" placeholder="Truck Type" /><br/>
+                            </div>
+                            <div>
+                                <label class="small-text">Truck Plates: </label>
+                            <input class="transporter-truck-plates" type="text" placeholder="Truck Plates" /><br/>
+                            </div>
+                            <div>
+                                <label class="small-text">Driver Name: </label>
+                            <input class="transporter-driver-name" type="text" placeholder="Driver Name" /><br/>
+                            </div>
+                            <div>
+                                <label class="small-text">Driver Phone: </label>
+                                <input class="transporter-driver-phone" type="text" placeholder="Driver Phone" /><br/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button ng-click='addCourse()' class="add-course">Add a Course</button>
+            </div>
+			<button class="save-close-route btn btn-default" type="button" >Save And Close</button>
 			<button class="save-route btn btn-default" type="button" >Save</button>
 			<a class="btn btn-default" href="main.html" >Close</a>
 		</form>
@@ -62,6 +109,7 @@
 	<script type="text/javascript" src="scripts/model.js"></script>
 	<script type="text/javascript" src="scripts/route.js"></script>
 	<script type="text/javascript" src="scripts/kendo.custom.min.js"></script>
+    <script type="text/javascript" src="scripts/NewRouteController.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyClYOUT5K3jl-ykqnj3lK4tiyIEzsO_RCY&signed_in=true&callback=addAutocomplete&libraries=places" async defer></script>
 </body>
 </html>

@@ -1,14 +1,58 @@
-.input-fields {
+.course-fields, .client-info, .course-fields-wrapper {
     display: flex;
 	flex-flow: row wrap;
 }
 
-.route-form input {
-	margin: 5px;
-	width: 320px;
+.client-info, .course-fields {
+    border: 1px solid black;
+    margin: 5px;
+    padding: 5px;
 }
 
-.route-info, .client-info, .transporter-info{
+.client-info {
+    max-width: 1222px;
+}
+
+.client-info label {
+    margin: 9px 9px 0px;
+}
+
+.client-label{
+    margin: 10px 10px 0 10px;
+}
+
+.route-form input {
+	margin: 8px;
+	width: 200px;
+    font-size: 0.80em;
+}
+
+.city-dates-wrapper, .transporter-info, .all-courses{
 	display: flex;
 	flex-flow: column wrap;
+}
+
+.city-dates-wrapper, .transporter-info {
+    margin: 5px;
+}
+
+label {
+    font-size: 0.80em;
+}
+
+.datetime-picker {
+    font-size: 90%;
+}
+
+.add-stop {
+    width: 100px;
+    font-size: 90%;
+    margin: 8px;
+}
+
+.add-course {
+    width: 130px;
+    font-size: 90%;
+    margin: 8px 8px 8px 130px;
+    position: relative;
 }

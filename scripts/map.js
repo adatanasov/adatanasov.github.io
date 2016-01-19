@@ -109,7 +109,7 @@ function setMap(mapInfo) {
         if (status === google.maps.DirectionsStatus.OK) {
 			directionsDisplay.setDirections(response);
 		} else {
-			window.alert('Directions request failed due to ' + status);
+			console.log('Directions request failed due to ' + status);
 		}
     }) 
 };
@@ -245,9 +245,9 @@ function drawMapIfExists() {
 		headers: { "Authorization" : "Bearer " + getCookie('MYSPEDITOR_AUTH')},
 		contentType: "application/json",
 		success: function (data) {
-			MAP_EXISTS = data.Result.Map == '' ? false : true;
+			MAP_EXISTS = data.Result.MapId == '' ? false : true;
 			if (MAP_EXISTS) {
-				MAP_ID = data.Result.Map;
+				MAP_ID = data.Result.MapId;
 				
 				$.ajax({
 					type: "GET",

@@ -1,43 +1,47 @@
-var ROUTE_ID, CLIENT_ID, TRANSPORTER_ID;
+var ROUTE_ID, CLIENT_ID, TRANSPORTER_ID, MAP_ID, MAP_INFO;
 
 $('document').ready(function(){
-	ROUTE_ID = getParameterByName('routeId');
-	$(".datetime-picker").kendoDateTimePicker({
-		theme: "Metro"
-    });
-	
+	ROUTE_ID = getParameterByName('routeId');	
 	if (ROUTE_ID) {
 		showRouteInfo();
 	}
+    
+    $(".datetime-picker").kendoDateTimePicker({
+		theme: "Metro"
+    });
+
+    $('.save-route').on('click', function(){
+        saveRoute(function(){});  
+    });
+    $('.save-close-route').on('click', function(){
+        saveRoute(function(){
+            window.location.href = 'main.html'; 
+        });  
+    });
 });
+
+function addAutocomplete() {
+    var autocompleteInputs = document.getElementsByClassName('autocomplete');
+    for (var i = 0; i < autocompleteInputs.length; i++) {
+        new google.maps.places.Autocomplete(
+            autocompleteInputs[i], {
+                types: ['(cities)']
+            });
+    }
+};
 
 function showRouteInfo() {
     MODEL.GetAllRouteInfoById('Route', ROUTE_ID, function (data) {
         CLIENT_ID = data.ClientId;
         TRANSPORTER_ID = data.TransporterId;
+        MAP_ID = data.MapId;
         setRouteInfo(data);
     });
 };
 
-function addAutocomplete() {
-  var start = new google.maps.places.Autocomplete(
-      (document.getElementById('start')), {
-        types: ['(cities)']
-      });
-	  
-  var stop = new google.maps.places.Autocomplete(
-      (document.getElementById('stop')), {
-        types: ['(cities)']
-      });
-
-  var end = new google.maps.places.Autocomplete(
-      (document.getElementById('end')), {
-        types: ['(cities)']
-      });
-};
-
-$('.save-route').on('click', function () {
-	var routeInfo = getRouteInfo();
+function saveRoute(successfulCreate) {
+    var routeInfo = getRouteInfo();
+    var mapInfo = getMapInfo();
 	
 	if (ROUTE_ID) {
         if (CLIENT_ID) {
@@ -46,35 +50,61 @@ $('.save-route').on('click', function () {
         
         if (TRANSPORTER_ID) {
             MODEL.Update('Transporter', TRANSPORTER_ID, routeInfo.Transporter, function(result){});
+        }        
+        
+        if (MAP_ID) {
+            MODEL.Update('Map', MAP_ID, mapInfo, function(result){});
         }
                 
-        MODEL.Update('Route', ROUTE_ID, routeInfo.Route, function(result){});
+        MODEL.Update('Route', ROUTE_ID, routeInfo.Route, function(result){
+            successfulCreate();
+        });
 	} else {
-		var clientId, transporterId;
 		MODEL.Create('Client', routeInfo.Client, function(result){
-			clientId = result.Id;
+			routeInfo.Route.ClientId = result.Id;
 			MODEL.Create('Transporter', routeInfo.Transporter, function(result){
-				transporterId = result.Id;				
-                routeInfo.Route.ClientId = clientId;
-                routeInfo.Route.TransporterId = transporterId;
-                MODEL.Create('Route', routeInfo.Route, function(result){
-                    ROUTE_ID = result.Id;
-                    window.location.href = 'main.html';
+				routeInfo.Route.TransporterId = result.Id;	
+                MODEL.Create('Map', mapInfo, function(result){
+                    routeInfo.Route.MapId = result.Id;					
+                    MODEL.Create('Route', routeInfo.Route, function(result){
+                        ROUTE_ID = result.Id;
+                        successfulCreate();
+                    });
                 });
 			});
 		});
 	}
-});
+};
+
+function getMapInfo() {
+    var mapInfo = {};
+    var startPlace = MAP_INFO.StartElement.getPlace();
+    mapInfo.Start = { 'lat' : startPlace.geometry.location.lat(), 'lng' : startPlace.geometry.location.lng() };
+    
+    var endPlace = MAP_INFO.EndElement.getPlace();
+    mapInfo.End = { 'lat' : endPlace.geometry.location.lat(), 'lng' : endPlace.geometry.location.lng() };
+    
+    mapInfo.Waypoints = [];  
+    
+    for(i=0; i < MAP_INFO.Waypoints.length; i++) {
+        var currentPlace = MAP_INFO.Waypoints[i].getPlace();
+        mapInfo.Waypoints.push({ 'lat' : currentPlace.geometry.location.lat(), 'lng' : currentPlace.geometry.location.lng() });  
+    }
+    
+    return mapInfo;  
+};
 
 function getRouteInfo() {
 	var routeInfo = { Route: {}, Client: {}, Transporter: {} };
 	
 	routeInfo.Route.Start = $('#start').val();
 	routeInfo.Route.StartDate = $('#start-time').val();
-	routeInfo.Route.Stop = $('#stop').val();
-	routeInfo.Route.StopDate = $('#stop-time').val();
 	routeInfo.Route.End = $('#end').val();
 	routeInfo.Route.EndDate = $('#end-time').val();	
+	routeInfo.Route.Stops = [];
+	$('.stop').each(function() {
+        routeInfo.Route.Stops.push({ 'Name' : $(this).val(), 'Time' : $(this).parent().find('.stop-time').val()});
+    });
     
 	routeInfo.Client.Order = $('#client-order').val();
 	routeInfo.Client.Company = $('#client-company').val();
