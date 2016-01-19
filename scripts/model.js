@@ -16,6 +16,29 @@ var MODEL = (function () {
 		}
 		return "";
 	};
+
+    function setCookie(name, value, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays*24*60*60*1000));
+        var expires = "expires="+d.toUTCString();
+        document.cookie = name + "=" + value + "; " + expires;
+    };
+    
+    model.Login = function(user) {
+        $.ajax({
+            type: "POST",
+            url: 'http://api.everlive.com/v1/' + API_KEY + '/oauth/token',
+            contentType: "application/json",
+            data: JSON.stringify(user),
+            success: function (data) {
+                setCookie('MYSPEDITOR_AUTH', data.Result.access_token, 1);
+                window.location.href = 'main.html'; 
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    };
 	
 	model.Create = function(entity, data, callback) {
 		$.ajax({
@@ -51,11 +74,22 @@ var MODEL = (function () {
     };
     
     model.GetAllRouteInfoById = function(entity, id, callback, errorCallback) {
+        var expand = {
+            "ClientId" : {
+                "TargetTypeName" : "Client", 
+                "ReturnAs" : "Client"
+            },
+            "TransporterId" : {
+                "TargetTypeName" : "Transporter", 
+                "ReturnAs" : "Transporter" 
+            }
+        };
+        
         $.ajax({
             type: "GET",
             url: 'http://api.everlive.com/v1/'+ API_KEY + '/' + entity + '/' + id,
             headers: { "Authorization" : "Bearer " + getCookie('MYSPEDITOR_AUTH'),
-                        "X-Everlive-Expand": "{ \"ClientId\": {\"TargetTypeName\" : \"Client\", \"ReturnAs\" : \"Client\"}, \"TransporterId\": {\"TargetTypeName\" : \"Transporter\", \"ReturnAs\" : \"Transporter\"} }" },
+                        "X-Everlive-Expand" : JSON.stringify(expand) },
             contentType: "application/json",
             success: function (data) {		
                 console.log(entity + ' successfully read!');			
@@ -86,11 +120,22 @@ var MODEL = (function () {
     };
     
     model.GetAllRouteInfoForUser = function(entity, callback, errorCallback) {
+        var expand = {
+            "ClientId" : {
+                "TargetTypeName" : "Client", 
+                "ReturnAs" : "Client"
+            },
+            "TransporterId" : {
+                "TargetTypeName" : "Transporter", 
+                "ReturnAs" : "Transporter" 
+            }
+        };
+        
         $.ajax({
             type: "GET",
             url: 'http://api.everlive.com/v1/'+ API_KEY + '/' + entity,
             headers: { "Authorization" : "Bearer " + getCookie('MYSPEDITOR_AUTH'),
-                        "X-Everlive-Expand": "{ \"ClientId\": {\"TargetTypeName\" : \"Client\", \"ReturnAs\" : \"Client\"}, \"TransporterId\": {\"TargetTypeName\" : \"Transporter\", \"ReturnAs\" : \"Transporter\"} }" },
+                        "X-Everlive-Expand" : JSON.stringify(expand) },
             contentType: "application/json",
             success: function (data) {		
                 console.log(entity + ' successfully read!');			
