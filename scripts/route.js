@@ -6,6 +6,14 @@ $('document').ready(function(){
 		showRouteInfo();
 	}
     
+    var autocompleteInputs = document.getElementsByClassName('autocomplete');
+    for (var i = 0; i < autocompleteInputs.length; i++) {
+        new google.maps.places.Autocomplete(
+            autocompleteInputs[i], {
+                types: ['(cities)']
+            });
+    }
+    
     $(".datetime-picker").kendoDateTimePicker({
 		theme: "Metro"
     });
@@ -20,15 +28,7 @@ $('document').ready(function(){
     });
 });
 
-function addAutocomplete() {
-    var autocompleteInputs = document.getElementsByClassName('autocomplete');
-    for (var i = 0; i < autocompleteInputs.length; i++) {
-        new google.maps.places.Autocomplete(
-            autocompleteInputs[i], {
-                types: ['(cities)']
-            });
-    }
-};
+function addAutocomplete() {};
 
 function showRouteInfo() {
     MODEL.GetAllRouteInfoById('Route', ROUTE_ID, function (data) {
@@ -41,39 +41,55 @@ function showRouteInfo() {
 
 function saveRoute(successfulCreate) {
     var routeInfo = getRouteInfo();
-    var mapInfo = getMapInfo();
+    //var mapInfo = getMapInfo();
 	
 	if (ROUTE_ID) {
-        if (CLIENT_ID) {
-            MODEL.Update('Client', CLIENT_ID, routeInfo.Client, function(result){});
-        }        
+        // if (CLIENT_ID) {
+        //     MODEL.Update('Client', CLIENT_ID, routeInfo.Client, function(result){});
+        // }        
         
-        if (TRANSPORTER_ID) {
-            MODEL.Update('Transporter', TRANSPORTER_ID, routeInfo.Transporter, function(result){});
-        }        
+        // if (TRANSPORTER_ID) {
+        //     MODEL.Update('Transporter', TRANSPORTER_ID, routeInfo.Transporter, function(result){});
+        // }        
         
-        if (MAP_ID) {
-            MODEL.Update('Map', MAP_ID, mapInfo, function(result){});
-        }
+        // if (MAP_ID) {
+        //     MODEL.Update('Map', MAP_ID, mapInfo, function(result){});
+        // }
                 
-        MODEL.Update('Route', ROUTE_ID, routeInfo.Route, function(result){
-            successfulCreate();
-        });
+        // MODEL.Update('Route', ROUTE_ID, routeInfo.Route, function(result){
+        //     successfulCreate();
+        // });
 	} else {
 		MODEL.Create('Client', routeInfo.Client, function(result){
-			routeInfo.Route.ClientId = result.Id;
-			MODEL.Create('Transporter', routeInfo.Transporter, function(result){
-				routeInfo.Route.TransporterId = result.Id;	
-                MODEL.Create('Map', mapInfo, function(result){
-                    routeInfo.Route.MapId = result.Id;					
-                    MODEL.Create('Route', routeInfo.Route, function(result){
-                        ROUTE_ID = result.Id;
-                        successfulCreate();
-                    });
-                });
-			});
-		});
+            routeInfo.Route.ClientId = result.Id;        
+            saveRouteSync(routeInfo, 0, successfulCreate);  
+        });	
 	}
+};
+
+function saveRouteSync(routeInfo, counter, successfulCreate) {
+    var total = routeInfo.Courses.length;
+    if (counter >= total) {
+        return;
+    }
+    
+    MODEL.Create('Transporter', routeInfo.Courses[counter].Transporter, function(result){
+        routeInfo.Courses[counter].TransporterId = result.Id;	
+        delete routeInfo.Courses[counter].Transporter;
+        
+        MODEL.Create('Course', routeInfo.Courses[counter], function(result){
+            routeInfo.Route.CourseIds.push(result.Id);
+            
+            if (counter === total - 1) {
+                MODEL.Create('Route', routeInfo.Route, function(result){
+                    ROUTE_ID = result.Id;
+                    successfulCreate();
+                });
+            } else {
+                saveRouteSync(routeInfo, counter + 1, successfulCreate); 
+            }
+        });
+    });
 };
 
 function getMapInfo() {
@@ -95,16 +111,7 @@ function getMapInfo() {
 };
 
 function getRouteInfo() {
-	var routeInfo = { Route: {}, Client: {}, Transporter: {} };
-	
-	routeInfo.Route.Start = $('#start').val();
-	routeInfo.Route.StartDate = $('#start-time').val();
-	routeInfo.Route.End = $('#end').val();
-	routeInfo.Route.EndDate = $('#end-time').val();	
-	routeInfo.Route.Stops = [];
-	$('.stop').each(function() {
-        routeInfo.Route.Stops.push({ 'Name' : $(this).val(), 'Time' : $(this).parent().find('.stop-time').val()});
-    });
+	var routeInfo = { Route: { CourseIds: [] }, Client: {}, Courses: [] };
     
 	routeInfo.Client.Order = $('#client-order').val();
 	routeInfo.Client.Company = $('#client-company').val();
@@ -112,38 +119,55 @@ function getRouteInfo() {
 	routeInfo.Client.Phone = $('#client-phone').val();
 	routeInfo.Client.Email = $('#client-email').val();
     
-	routeInfo.Transporter.Company = $('#transporter-company').val();
-	routeInfo.Transporter.Contact = $('#transporter-contact').val();
-	routeInfo.Transporter.Phone = $('#transporter-phone').val();
-	routeInfo.Transporter.TruckType = $('#transporter-truck-type').val();
-	routeInfo.Transporter.TruckPlates = $('#transporter-truck-plates').val();
-	routeInfo.Transporter.DriverName = $('#transporter-driver-name').val();
-	routeInfo.Transporter.DriverPhone = $('#transporter-driver-phone').val();
+    var allCourses = $('.course-fields');
+    allCourses.each(function() {
+        var Course = {};        
+        Course.Start = $(this).find('.start-name').val();
+        Course.StartDate = $(this).find('input.start-time').val();
+        Course.End = $(this).find('.end-name').val();
+        Course.EndDate = $(this).find('input.end-time').val();
+        
+        Course.Stops = [];
+        $(this).find('.stop').each(function() {
+            Course.Stops.push({ 'Name' : $(this).find('.stop-name').val(), 'Time' : $(this).find('input.stop-time').val()});
+        });
+        
+        Course.Transporter = {};
+        Course.Transporter.Company = $(this).find('.transporter-company').val();
+        Course.Transporter.Contact = $(this).find('.transporter-contact').val();
+        Course.Transporter.Phone = $(this).find('.transporter-phone').val();
+        Course.Transporter.TruckType = $(this).find('.transporter-truck-type').val();
+        Course.Transporter.TruckPlates = $(this).find('.transporter-truck-plates').val();
+        Course.Transporter.DriverName = $(this).find('.transporter-driver-name').val();
+        Course.Transporter.DriverPhone = $(this).find('.transporter-driver-phone').val();
+        
+        routeInfo.Courses.push(Course);
+    });
 	
 	return routeInfo;
 };
 
 function setRouteInfo(routeInfo) {
-	$('#start').val(routeInfo.Start);
-	$('#start-time').val(routeInfo.StartDate);
-	$('#stop').val(routeInfo.Stop);
-	$('#stop-time').val(routeInfo.StopDate);
-	$('#end').val(routeInfo.End);
-	$('#end-time').val(routeInfo.EndDate);
+	$('.start-name').val(routeInfo.Start);
+	$('input.start-time').val(routeInfo.StartDate);
+	$('.stop-name').val(routeInfo.Stop);
+	$('input.stop-time').val(routeInfo.StopDate);
+	$('.end-name').val(routeInfo.End);
+	$('input.end-time').val(routeInfo.EndDate);
     
-	$('#client-order').val(routeInfo.Client.Order);
-	$('#client-company').val(routeInfo.Client.Company);
-	$('#client-contact').val(routeInfo.Client.Contact);
-	$('#client-phone').val(routeInfo.Client.Phone);
-	$('#client-email').val(routeInfo.Client.Email);
+	$('.client-order').val(routeInfo.Client.Order);
+	$('.client-company').val(routeInfo.Client.Company);
+	$('.client-contact').val(routeInfo.Client.Contact);
+	$('.client-phone').val(routeInfo.Client.Phone);
+	$('.client-email').val(routeInfo.Client.Email);
     
-	$('#transporter-company').val(routeInfo.Transporter.Company);
-	$('#transporter-contact').val(routeInfo.Transporter.Contact);
-	$('#transporter-phone').val(routeInfo.Transporter.Phone);
-	$('#transporter-truck-type').val(routeInfo.Transporter.TruckType);
-	$('#transporter-truck-plates').val(routeInfo.Transporter.TruckPlates);
-	$('#transporter-driver-name').val(routeInfo.Transporter.DriverName);
-	$('#transporter-driver-phone').val(routeInfo.Transporter.DriverPhone);
+	$('.transporter-company').val(routeInfo.Transporter.Company);
+	$('.transporter-contact').val(routeInfo.Transporter.Contact);
+	$('.transporter-phone').val(routeInfo.Transporter.Phone);
+	$('.transporter-truck-type').val(routeInfo.Transporter.TruckType);
+	$('.transporter-truck-plates').val(routeInfo.Transporter.TruckPlates);
+	$('.transporter-driver-name').val(routeInfo.Transporter.DriverName);
+	$('.transporter-driver-phone').val(routeInfo.Transporter.DriverPhone);
 };
 
 function getParameterByName(name) {

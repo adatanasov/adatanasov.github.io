@@ -9,6 +9,16 @@ angular.module('NewRoute', []).controller('NewRouteController', function($scope,
             $('.course-fields').last().find(".datetime-picker").kendoDateTimePicker({
                 theme: "Metro"
             });
+            
+            var courses = document.getElementsByClassName("course-fields");
+            var lastCourse = courses[courses.length - 1];
+            var autos = lastCourse.getElementsByClassName('autocomplete');
+            for(i=0; i < autos.length; i++) {
+                var autocomplete = new google.maps.places.Autocomplete(
+                    (autos[i]), {
+                    types: ['(cities)']
+                });
+            }
         }, 50);
     };
 

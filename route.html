@@ -45,19 +45,19 @@
                                 <label>Start, Stops and End: </label><br/>
                                 <div>
                                     <label class="small-text">Start: </label>
-                                    <input class="start autocomplete" placeholder="Select a city" type="text" /><br/>
+                                    <input class="start-name autocomplete" placeholder="Select a city" type="text" /><br/>
                                     <label class="small-text">Start Time: </label>
                                     <input class="start-time datetime-picker" placeholder="Select Start Time" /><br/>
                                 </div>
                                 <div>
                                     <label class="small-text">End: </label>
-                                    <input class="end autocomplete" placeholder="Select a city" type="text" /><br/>
+                                    <input class="end-name autocomplete" placeholder="Select a city" type="text" /><br/>
                                     <label class="small-text">End Time: </label>
                                     <input class="end-time datetime-picker" placeholder="Select End Time" />	
                                 </div>
-                                <div ng-hide='course.stops.length === 0' ng-repeat='stop in course.stops'>
+                                <div class="stop" ng-hide='course.stops.length === 0' ng-repeat='stop in course.stops'>
                                     <label class="small-text">Stop: </label>
-                                    <input class="stop autocomplete" placeholder="Select a city" type="text" /><br/>
+                                    <input class="stop-name autocomplete" placeholder="Select a city" type="text" /><br/>
                                     <label class="small-text">Stop Time: </label>
                                     <input class="stop-time datetime-picker" placeholder="Select Stop Time" />	
                                 </div>
