@@ -4,15 +4,7 @@ $('document').ready(function(){
 	ROUTE_ID = getParameterByName('routeId');	
 	if (ROUTE_ID) {
 		showRouteInfo();
-	}
-    
-    var autocompleteInputs = document.getElementsByClassName('autocomplete');
-    for (var i = 0; i < autocompleteInputs.length; i++) {
-        new google.maps.places.Autocomplete(
-            autocompleteInputs[i], {
-                types: ['(cities)']
-            });
-    }
+	}    
     
     $(".datetime-picker").kendoDateTimePicker({
 		theme: "Metro"
@@ -28,7 +20,15 @@ $('document').ready(function(){
     });
 });
 
-function addAutocomplete() {};
+function addAutocomplete() {
+    var autocompleteInputs = document.getElementsByClassName('autocomplete');
+    for (var i = 0; i < autocompleteInputs.length; i++) {
+        new google.maps.places.Autocomplete(
+            autocompleteInputs[i], {
+                types: ['(cities)']
+            });
+    }
+};
 
 function showRouteInfo() {
     MODEL.GetAllRouteInfoById('Route', ROUTE_ID, function (data) {
