@@ -3,7 +3,7 @@ var loadRouteButtons = function () {
         ev.preventDefault();
         var isSure = confirm("Are you sure you want to delete this route?");
         if (isSure == true) {  
-            var clientId = $(this).parent().parent().find('.client-info').attr('id'); 
+            var clientId = $(this).parent().parent().find('.route-client').attr('id'); 
             //var transporterId = $(this).parent().parent().find('.transport-info').attr('id'); 
             var routeId = $(this).parent().parent().find('.route').attr('id'); 
             //TODO Add delete for Map

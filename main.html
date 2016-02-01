@@ -39,7 +39,7 @@
 
                 <div class="route" id="{{ route.Id }}">
                     <div class="client-info">
-                        <div class="client-info" id="{{ route.ClientId }}">
+                        <div class="client-info route-client" id="{{ route.ClientId }}">
                             <div class="title">Client</div>
                             <div class="client-info-container">
                                 <span class="small-text">Order: </span>{{ route.Client.Order }}
@@ -64,45 +64,47 @@
                             </a>
                         </div>
                     </div>
-                    <div class="basic-route-info">
-                        <div class="basic-info-container">
-                            <div class="title">Start</div>
-                            <div class="basic-info-city">{{ route.Start }}</div>
-                            <div class="basic-info-date small-text">{{ route.StartDate || 'Date not set' | date:'MMM d, y h:mm a' }}</div>
+                    <div class="courses-container" ng-repeat="course in route.Courses" id="{{ course.Id }}">
+                        <div class="basic-route-info">
+                            <div class="basic-info-container">
+                                <div class="title">Start</div>
+                                <div class="basic-info-city">{{ course.Start }}</div>
+                                <div class="basic-info-date small-text">{{ course.StartDate || 'Date not set' | date:'MMM d, y h:mm a' }}</div>
+                            </div>
+                            <div class="basic-info-container" ng-hide='course.Stops.length === 0' ng-repeat='stop in course.Stops'>
+                                <div class="title">Stop</div>
+                                <div class="basic-info-city">{{ stop.Name }}</div>
+                                <div class="basic-info-date small-text">{{ stop.Time || 'Date not set' | date:'MMM d, y h:mm a' }}</div>
+                            </div>
+                            <div class="basic-info-container">
+                                <div class="title">End</div>
+                                <div class="basic-info-city">{{ course.End }}</div>
+                                <div class="basic-info-date small-text">{{ course.EndDate || 'Date not set' | date:'MMM d, y h:mm a' }}</div>
+                            </div>
                         </div>
-                        <div class="basic-info-container" ng-show="route.Stop">
-                            <div class="title">Stop</div>
-                            <div class="basic-info-city">{{ route.Stop }}</div>
-                            <div class="basic-info-date small-text">{{ route.StopDate || 'Date not set' | date:'MMM d, y h:mm a' }}</div>
-                        </div>
-                        <div class="basic-info-container">
-                            <div class="title">End</div>
-                            <div class="basic-info-city">{{ route.End }}</div>
-                            <div class="basic-info-date small-text">{{ route.EndDate || 'Date not set' | date:'MMM d, y h:mm a' }}</div>
-                        </div>
-                    </div>
-                    <div class="transport-info" id="{{ route.TransporterId }}">
-                        <div class="title">Transporter</div>
-                        <div class="transport-info-container">
-                            <span class="small-text">Company: </span>{{ route.Transporter.Company }}
-                        </div>
-                        <div class="transport-info-container">
-                            <span class="small-text">Contact: </span>{{ route.Transporter.Contact }}
-                        </div>
-                        <div class="transport-info-container">
-                            <span class="small-text">Tel: </span>{{ route.Transporter.Phone }}
-                        </div>
-                        <div class="transport-info-container">
-                            <span class="small-text">Truck Type: </span>{{ route.Transporter.TruckType }}
-                        </div>
-                        <div class="transport-info-container">
-                            <span class="small-text">Truck Plates: </span>{{ route.Transporter.TruckPlates }}
-                        </div>
-                        <div class="transport-info-container">
-                            <span class="small-text">Driver Name: </span>{{ route.Transporter.DriverName }}
-                        </div>
-                        <div class="transport-info-container">
-                            <span class="small-text">Driver Phone: </span>{{ route.Transporter.DriverPhone }}
+                        <div class="transport-info" id="{{ course.TransporterId }}">
+                            <div class="title">Transporter</div>
+                            <div class="transport-info-container">
+                                <span class="small-text">Company: </span>{{ course.Transporter.Company }}
+                            </div>
+                            <div class="transport-info-container">
+                                <span class="small-text">Contact: </span>{{ course.Transporter.Contact }}
+                            </div>
+                            <div class="transport-info-container">
+                                <span class="small-text">Tel: </span>{{ course.Transporter.Phone }}
+                            </div>
+                            <div class="transport-info-container">
+                                <span class="small-text">Truck Type: </span>{{ course.Transporter.TruckType }}
+                            </div>
+                            <div class="transport-info-container">
+                                <span class="small-text">Truck Plates: </span>{{ course.Transporter.TruckPlates }}
+                            </div>
+                            <div class="transport-info-container">
+                                <span class="small-text">Driver Name: </span>{{ course.Transporter.DriverName }}
+                            </div>
+                            <div class="transport-info-container">
+                                <span class="small-text">Driver Phone: </span>{{ course.Transporter.DriverPhone }}
+                            </div>
                         </div>
                     </div>
                 </div>

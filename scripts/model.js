@@ -79,10 +79,16 @@ var MODEL = (function () {
                 "TargetTypeName" : "Client", 
                 "ReturnAs" : "Client"
             },
-            "TransporterId" : {
-                "TargetTypeName" : "Transporter", 
-                "ReturnAs" : "Transporter" 
-            }
+            "CourseIds" : {
+                "TargetTypeName" : "Course", 
+                "ReturnAs" : "Courses",
+                "Expand": {
+                    "TransporterId" : {
+                        "TargetTypeName" : "Transporter", 
+                        "ReturnAs" : "Transporter" 
+                    }
+                } 
+            }            
         };
         
         $.ajax({
@@ -125,10 +131,16 @@ var MODEL = (function () {
                 "TargetTypeName" : "Client", 
                 "ReturnAs" : "Client"
             },
-            "TransporterId" : {
-                "TargetTypeName" : "Transporter", 
-                "ReturnAs" : "Transporter" 
-            }
+            "CourseIds" : {
+                "TargetTypeName" : "Course", 
+                "ReturnAs" : "Courses",
+                "Expand": {
+                    "TransporterId" : {
+                        "TargetTypeName" : "Transporter", 
+                        "ReturnAs" : "Transporter" 
+                    }
+                } 
+            }            
         };
         
         $.ajax({

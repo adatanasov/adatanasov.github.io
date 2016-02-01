@@ -69,6 +69,11 @@
 	flex-flow: row wrap;
 }
 
+.courses-container {
+	display: flex;
+	flex-flow: row wrap;
+}
+
 .client-info{	
 	/* border:3px solid #6932FF; */
 	height: 33%;
